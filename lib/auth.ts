@@ -2,6 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import dbConnect from "./mongodb";
+import { serverEnv } from "./serverEnv";
 import User from "@/models/User";
 
 /**
@@ -60,5 +61,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: serverEnv("NEXTAUTH_SECRET"),
 };

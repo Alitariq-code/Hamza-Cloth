@@ -28,6 +28,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# local secret fallback (loaded by lib/serverEnv.ts — never commit)
+env.fallback.json
+
 # vercel
 .vercel
 

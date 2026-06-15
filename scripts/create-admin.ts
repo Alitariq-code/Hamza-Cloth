@@ -10,9 +10,12 @@ config({ path: ".env.local" });
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
+import { serverEnv } from "../lib/serverEnv";
 
 async function run() {
-  const { MONGODB_URI, ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
+  const MONGODB_URI = serverEnv("MONGODB_URI");
+  const ADMIN_EMAIL = serverEnv("ADMIN_EMAIL");
+  const ADMIN_PASSWORD = serverEnv("ADMIN_PASSWORD");
 
   if (!MONGODB_URI) {
     console.error("✗ MONGODB_URI not set in .env.local");

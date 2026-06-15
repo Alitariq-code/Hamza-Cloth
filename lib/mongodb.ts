@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { serverEnv } from "./serverEnv";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = serverEnv("MONGODB_URI");
 
 interface MongooseCache {
   conn: typeof mongoose | null;
