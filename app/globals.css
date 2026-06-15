@@ -3,25 +3,85 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f5f6;
+  --foreground: #1a1a1a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Urdu text helper */
+.urdu {
+  font-family: var(--font-urdu), serif;
+  direction: rtl;
+  line-height: 2.1;
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn bg-gold px-6 py-3 font-medium text-white shadow-gold transition-all duration-300 hover:bg-[#b8965d] hover:shadow-gold-lg active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn border border-gold px-6 py-3 font-medium text-gold transition-all duration-300 hover:bg-gold hover:text-white;
+  }
+
+  .btn-whatsapp {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn bg-[#25D366] px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-[#1da851] active:scale-[0.98];
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-pill px-3 py-1 text-xs font-semibold;
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-pill border border-blush-border bg-background px-3 py-1 text-xs text-muted;
+  }
+
+  .card-surface {
+    @apply rounded-card bg-surface shadow-gold transition-all duration-300;
+  }
+
+  .section-title {
+    @apply font-display text-h2 font-bold text-ink;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* skeleton shimmer */
+  .skeleton {
+    @apply relative overflow-hidden bg-blush-border/60;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
