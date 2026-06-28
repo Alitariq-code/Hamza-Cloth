@@ -9,15 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#F5F5F6",
+        background: "#FFFFFF",
         surface: "#FFFFFF",
-        gold: "#C9A96E",
-        rose: "#E8B4B8",
+        // "gold" is repurposed as the primary near-black accent so the whole
+        // site reads monochrome (Maria.B style) without renaming every class.
+        gold: "#1A1A1A",
+        rose: "#9B1C2E",
         ink: "#1A1A1A",
-        muted: "#6B6B6B",
-        "badge-red": "#D94F4F",
-        "badge-green": "#4CAF7D",
-        "blush-border": "#E5E5E5",
+        muted: "#767676",
+        "badge-red": "#C0392B",
+        "badge-green": "#1A1A1A",
+        "blush-border": "#E7E3DE",
+        // Warm editorial accents for a premium womenswear feel.
+        cream: "#F8F5F1",
+        accent: "#8E2B3F",
       },
       fontFamily: {
         display: ["var(--font-playfair)", "serif"],
@@ -31,16 +36,16 @@ const config: Config = {
         h3: ["1.5rem", { lineHeight: "1.2" }],
       },
       borderRadius: {
-        card: "16px",
-        btn: "8px",
+        card: "2px",
+        btn: "2px",
         pill: "50px",
       },
       boxShadow: {
-        gold: "0 4px 24px rgba(201,169,110,0.10)",
-        "gold-lg": "0 8px 40px rgba(201,169,110,0.18)",
+        gold: "0 1px 3px rgba(0,0,0,0.04)",
+        "gold-lg": "0 8px 30px rgba(0,0,0,0.08)",
       },
       maxWidth: {
-        site: "1280px",
+        site: "1600px",
       },
       keyframes: {
         "underline-grow": {
@@ -58,6 +63,7 @@ const config: Config = {
       animation: {
         "underline-grow": "underline-grow 0.9s ease forwards 0.3s",
         "fade-up": "fade-up 0.6s ease forwards",
+        reveal: "fade-up 0.55s cubic-bezier(0.22,1,0.36,1) both",
         shimmer: "shimmer 1.4s infinite",
       },
     },

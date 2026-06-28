@@ -1,8 +1,8 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getProducts } from "@/lib/data";
-import ProductGrid from "@/components/products/ProductGrid";
-import ProductFilters from "@/components/products/ProductFilters";
+import CollectionListing from "@/components/products/CollectionListing";
+import CollectionHeader from "@/components/products/CollectionHeader";
 import Pagination from "@/components/products/Pagination";
 import type { ProductQuery } from "@/types";
 
@@ -33,32 +33,37 @@ export default async function ProductsPage({
   );
 
   return (
-    <div className="container-site py-10">
-      <header className="mb-8">
-        <h1 className="font-display text-h1 font-bold text-ink">All Products</h1>
-        <p className="mt-1 text-muted">
-          {total} {total === 1 ? "piece" : "pieces"} of timeless elegance
-        </p>
-      </header>
+    <div className="container-site py-4">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.06em] text-muted">
+        <Link href="/" className="transition hover:text-ink">
+          Home
+        </Link>
+        <span>/</span>
+        <Link href="/products" className="transition hover:text-ink">
+          Products
+        </Link>
+        <span>/</span>
+        <span className="text-ink">All</span>
+      </nav>
 
-      <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
-        <Suspense>
-          <ProductFilters />
-        </Suspense>
+      <CollectionHeader
+        eyebrow="The Collection"
+        title="All Products"
+        count={total}
+      />
 
-        <div>
-          <ProductGrid
-            products={products}
-            emptyMessage="No products match these filters. Try clearing some."
-          />
-          <Pagination
-            page={page}
-            pages={pages}
-            basePath="/products"
-            searchParams={searchParams}
-          />
-        </div>
-      </div>
+      <CollectionListing
+        products={products}
+        emptyMessage="No products match these filters. Try clearing some."
+      />
+
+      <Pagination
+        page={page}
+        pages={pages}
+        basePath="/products"
+        searchParams={searchParams}
+      />
     </div>
   );
 }

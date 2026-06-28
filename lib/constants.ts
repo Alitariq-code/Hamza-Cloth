@@ -17,10 +17,10 @@ export const SOCIAL = {
     "https://instagram.com/hamzaclothinghouse",
   facebook:
     process.env.NEXT_PUBLIC_FACEBOOK_URL ||
-    "https://facebook.com/hamzaclothinghouse",
+    "https://www.facebook.com/share/1D73rtip5r/",
   tiktok:
     process.env.NEXT_PUBLIC_TIKTOK_URL ||
-    "https://tiktok.com/@hamzaclothinghouse",
+    "https://www.tiktok.com/@imhamza37",
   maps:
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL ||
     "https://maps.google.com/?q=Haji+Iqbal+Market+Bohar+Gate+Multan",
@@ -62,9 +62,9 @@ export function buildWhatsAppLink(message: string, number = WHATSAPP_NUMBER) {
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
-/** Format a number as PKR currency, e.g. ₨ 2,500 */
+/** Format a number as PKR currency, e.g. Rs.2,500 */
 export function formatPKR(value: number) {
-  return `₨ ${new Intl.NumberFormat("en-PK").format(value)}`;
+  return `Rs.${new Intl.NumberFormat("en-PK").format(value)}`;
 }
 
 /** Calculate discount percentage between original and sale price. */

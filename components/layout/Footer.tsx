@@ -4,90 +4,146 @@ import {
   SOCIAL,
   SHOP,
   PHONE_NUMBERS,
-  NAV_LINKS,
   buildWhatsAppLink,
 } from "@/lib/constants";
 import {
   InstagramIcon,
   FacebookIcon,
   TikTokIcon,
-  WhatsAppIcon,
+  YouTubeIcon,
 } from "@/components/Icons";
+
+type FooterLink = { label: string; href: string; external?: boolean };
+
+const SHOP_LINKS: FooterLink[] = [
+  { label: "New Arrivals", href: "/new-arrivals" },
+  { label: "All Products", href: "/products" },
+  { label: "Collections", href: "/collections" },
+  { label: "Sale", href: "/sale" },
+];
+
+const CARE_LINKS: FooterLink[] = [
+  { label: "About Us", href: "/about" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Store Locator", href: SOCIAL.maps, external: true },
+  {
+    label: "Track Your Order",
+    href: buildWhatsAppLink("Hi! I'd like to track my order."),
+    external: true,
+  },
+];
+
+function FooterLinks({ links }: { links: FooterLink[] }) {
+  return (
+    <ul className="space-y-3 text-sm text-muted">
+      {links.map((l) =>
+        l.external ? (
+          <li key={l.label}>
+            <a
+              href={l.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-ink"
+            >
+              {l.label}
+            </a>
+          </li>
+        ) : (
+          <li key={l.label}>
+            <Link href={l.href} className="transition hover:text-ink">
+              {l.label}
+            </Link>
+          </li>
+        ),
+      )}
+    </ul>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-blush-border bg-surface">
-      <div className="container-site grid gap-10 py-14 md:grid-cols-4">
-        {/* Brand */}
-        <div className="md:col-span-1">
-          <h3 className="font-display text-2xl font-bold text-ink">
-            Hamza<span className="text-gold"> Cloth House</span>
+    <footer className="border-t border-blush-border bg-white">
+      {/* Back to top */}
+      <div className="border-b border-blush-border">
+        <a
+          href="#top"
+          className="block py-6 text-center text-sm font-medium uppercase tracking-[0.1em] text-ink transition hover:text-muted"
+        >
+          Back to top
+        </a>
+      </div>
+
+      {/* Newsletter */}
+      <div className="container-site flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h3 className="font-display text-2xl font-semibold text-ink">
+            Join our newsletter
           </h3>
-          <p className="mt-3 text-sm text-muted">
-            Where Elegance Meets Tradition.
-          </p>
-          <p className="urdu mt-1 text-sm text-muted" lang="ur">
-            جہاں خوبصورتی روایت سے ملتی ہے
+          <p className="mt-1 text-sm text-muted">
+            We&apos;ll send you updates once per week.
           </p>
         </div>
-
-        {/* Links */}
-        <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
-            Explore
-          </h4>
-          <ul className="space-y-2.5 text-sm text-muted">
-            {NAV_LINKS.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="transition hover:text-gold">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Visit */}
-        <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
-            Visit Us
-          </h4>
-          <p className="text-sm text-muted">{SHOP.addressLine}</p>
-          <p className="mt-1 text-sm text-muted">{SHOP.city}</p>
-          <p className="mt-2 text-sm text-muted">{SHOP.timing}</p>
-          <a
-            href={SOCIAL.maps}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-block text-sm font-medium text-gold hover:underline"
+        <form className="flex w-full max-w-md items-stretch">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            aria-label="Email address"
+            className="w-full border border-blush-border px-4 py-3 text-sm outline-none focus:border-ink"
+          />
+          <button
+            type="button"
+            className="shrink-0 bg-ink px-6 py-3 text-sm font-medium uppercase tracking-wider text-white transition hover:bg-[#333]"
           >
-            Open in Google Maps →
-          </a>
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+      {/* Columns */}
+      <div className="container-site grid gap-10 border-t border-blush-border py-10 md:grid-cols-[1.4fr_1fr_1fr]">
+        {/* Brand + contact */}
+        <div>
+          <h2 className="font-display text-2xl font-semibold tracking-[0.18em] text-ink">
+            HAMZA<span className="text-[0.7em] align-top">.</span>
+          </h2>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
+            {SHOP.addressLine}
+            <br />
+            {SHOP.city}
+          </p>
+          <div className="mt-3 space-y-1 text-sm text-muted">
+            <p>Call: +{PHONE_NUMBERS[0].intl}</p>
+            <p>WhatsApp: +{PHONE_NUMBERS[1]?.intl ?? PHONE_NUMBERS[0].intl}</p>
+            <p>Email: help@hamzaclothhouse.pk</p>
+          </div>
         </div>
 
-        {/* Connect */}
+        {/* Shop */}
         <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
-            Connect
+          <h4 className="mb-4 text-sm font-semibold uppercase tracking-[0.08em] text-ink">
+            Shop
           </h4>
-          <div className="mb-4 space-y-2">
-            {PHONE_NUMBERS.map((p) => (
-              <a
-                key={p.intl}
-                href={buildWhatsAppLink(
-                  "Hi! I'd like to place an order.",
-                  p.intl,
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm font-medium text-[#25D366]"
-              >
-                <WhatsAppIcon width={18} height={18} /> {p.display}
-              </a>
-            ))}
-          </div>
-          <div className="flex gap-3">
+          <FooterLinks links={SHOP_LINKS} />
+        </div>
+
+        {/* Customer Care */}
+        <div>
+          <h4 className="mb-4 text-sm font-semibold uppercase tracking-[0.08em] text-ink">
+            Customer Care
+          </h4>
+          <FooterLinks links={CARE_LINKS} />
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-blush-border">
+        <div className="container-site flex flex-col items-center justify-between gap-4 py-6 text-xs text-muted sm:flex-row">
+          <p>
+            © {new Date().getFullYear()}, {SITE_NAME} (PK)
+          </p>
+          <div className="flex items-center gap-4">
             {[
+              { href: SOCIAL.tiktok, Icon: YouTubeIcon, label: "YouTube" },
               { href: SOCIAL.instagram, Icon: InstagramIcon, label: "Instagram" },
               { href: SOCIAL.facebook, Icon: FacebookIcon, label: "Facebook" },
               { href: SOCIAL.tiktok, Icon: TikTokIcon, label: "TikTok" },
@@ -98,24 +154,12 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-blush-border text-muted transition hover:border-gold hover:bg-gold hover:text-white"
+                className="text-muted transition hover:text-ink"
               >
                 <Icon width={18} height={18} />
               </a>
             ))}
           </div>
-        </div>
-      </div>
-
-      <div className="border-t border-blush-border">
-        <div className="container-site flex flex-col items-center justify-between gap-2 py-5 text-center text-xs text-muted sm:flex-row sm:text-left">
-          <p>
-            © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
-            <span className="urdu mx-2" lang="ur">
-              جملہ حقوق محفوظ ہیں
-            </span>
-          </p>
-          <p>Made with ❤️ in Multan, Pakistan</p>
         </div>
       </div>
     </footer>

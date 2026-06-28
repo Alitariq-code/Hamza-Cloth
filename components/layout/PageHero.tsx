@@ -2,33 +2,29 @@ export default function PageHero({
   title,
   urdu,
   subtitle,
-  variant = "pink",
+  eyebrow,
 }: {
   title: string;
   urdu?: string;
   subtitle?: string;
-  variant?: "pink" | "red" | "gold";
+  eyebrow?: string;
 }) {
-  const bg =
-    variant === "red"
-      ? "from-badge-red/25 via-rose/15 to-background"
-      : variant === "gold"
-        ? "from-gold/25 via-rose/10 to-background"
-        : "from-rose/30 via-rose/10 to-background";
-
   return (
-    <section className={`bg-gradient-to-br ${bg}`}>
-      <div className="container-site py-14 text-center">
-        <h1 className="font-display text-h1 font-bold text-ink sm:text-hero">
+    <section className="border-b border-blush-border bg-cream">
+      <div className="container-site animate-reveal py-10 text-center sm:py-14">
+        {eyebrow && <p className="rule-eyebrow mb-3">{eyebrow}</p>}
+        <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-[2.8rem]">
           {title}
         </h1>
         {urdu && (
-          <p className="urdu mt-2 text-xl text-muted" lang="ur" dir="rtl">
+          <p className="urdu mt-2 text-lg text-muted" lang="ur" dir="rtl">
             {urdu}
           </p>
         )}
         {subtitle && (
-          <p className="mx-auto mt-3 max-w-xl text-muted">{subtitle}</p>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted">
+            {subtitle}
+          </p>
         )}
       </div>
     </section>

@@ -20,10 +20,10 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
+        eyebrow="We're Here to Help"
         title="Get in Touch"
         urdu="ہم سے رابطہ کریں"
         subtitle="We'd love to help you find your perfect outfit."
-        variant="pink"
       />
 
       <div className="container-site py-12">

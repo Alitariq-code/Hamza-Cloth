@@ -19,14 +19,14 @@ export default function ProductImageGallery({
   return (
     <div className="flex flex-col gap-4">
       {/* Main image with hover zoom */}
-      <div className="group relative aspect-[4/5] overflow-hidden rounded-card bg-blush-border/40">
+      <div className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-[#f2f2f2]">
         <Image
           src={gallery[active]}
           alt={`${name} — image ${active + 1}`}
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
         />
       </div>
 
@@ -38,8 +38,10 @@ export default function ProductImageGallery({
               key={i}
               onClick={() => setActive(i)}
               aria-label={`View image ${i + 1}`}
-              className={`relative h-20 w-16 shrink-0 overflow-hidden rounded-btn border-2 transition ${
-                active === i ? "border-gold" : "border-transparent opacity-70"
+              className={`relative h-20 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition ${
+                active === i
+                  ? "border-ink"
+                  : "border-transparent opacity-60 hover:opacity-100"
               }`}
             >
               <Image

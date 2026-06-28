@@ -26,36 +26,43 @@ export default function Pagination({
     (p) => p === 1 || p === pages || Math.abs(p - page) <= 1,
   );
 
-  return (
-    <nav className="mt-10 flex items-center justify-center gap-2">
-      {page > 1 && (
-        <Link href={hrefFor(page - 1)} className="btn-outline px-4 py-2 text-sm">
-          Prev
-        </Link>
-      )}
-      {nums.map((p, i) => {
-        const gap = i > 0 && p - nums[i - 1] > 1;
-        return (
-          <span key={p} className="flex items-center gap-2">
-            {gap && <span className="text-muted">…</span>}
-            <Link
-              href={hrefFor(p)}
-              className={`flex h-10 w-10 items-center justify-center rounded-btn text-sm transition ${
-                p === page
-                  ? "bg-gold text-white"
-                  : "border border-blush-border bg-surface text-ink hover:border-gold"
-              }`}
-            >
-              {p}
-            </Link>
-          </span>
-        );
-      })}
-      {page < pages && (
-        <Link href={hrefFor(page + 1)} className="btn-outline px-4 py-2 text-sm">
-          Next
-        </Link>
-      )}
-    </nav>
-  );
+    return (
+      <nav className="mt-12 flex items-center justify-center gap-1.5">
+        {page > 1 && (
+          <Link
+            href={hrefFor(page - 1)}
+            className="flex h-10 items-center gap-1 px-3 text-sm font-medium uppercase tracking-[0.06em] text-ink transition hover:text-muted"
+          >
+            ← Prev
+          </Link>
+        )}
+        {nums.map((p, i) => {
+          const gap = i > 0 && p - nums[i - 1] > 1;
+          return (
+            <span key={p} className="flex items-center gap-1.5">
+              {gap && <span className="px-1 text-muted">…</span>}
+              <Link
+                href={hrefFor(p)}
+                aria-current={p === page ? "page" : undefined}
+                className={`flex h-10 w-10 items-center justify-center text-sm transition ${
+                  p === page
+                    ? "bg-ink font-semibold text-white"
+                    : "border border-blush-border bg-white text-ink hover:border-ink"
+                }`}
+              >
+                {p}
+              </Link>
+            </span>
+          );
+        })}
+        {page < pages && (
+          <Link
+            href={hrefFor(page + 1)}
+            className="flex h-10 items-center gap-1 px-3 text-sm font-medium uppercase tracking-[0.06em] text-ink transition hover:text-muted"
+          >
+            Next →
+          </Link>
+        )}
+      </nav>
+    );
 }

@@ -52,10 +52,15 @@ function SearchInner() {
   }, [query]);
 
   return (
-    <div className="container-site py-10">
-      <h1 className="mb-6 font-display text-h1 font-bold text-ink">Search</h1>
+    <div className="container-site py-8">
+      <div className="py-4 text-center">
+        <p className="rule-eyebrow mb-3">Find Your Favourite</p>
+        <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-[2.6rem]">
+          Search
+        </h1>
+      </div>
 
-      <div className="mx-auto mb-10 flex max-w-2xl items-center gap-3 rounded-pill border border-blush-border bg-surface px-5 py-3 shadow-gold">
+      <div className="mx-auto mb-10 flex max-w-2xl items-center gap-3 border-b-2 border-blush-border bg-transparent px-1 py-3 transition-colors focus-within:border-ink">
         <SearchIcon className="text-muted" />
         <input
           ref={inputRef}
@@ -69,20 +74,19 @@ function SearchInner() {
       {loading && <ProductGridSkeleton count={8} />}
 
       {!loading && searched && results.length === 0 && (
-        <div className="rounded-card border border-dashed border-blush-border bg-surface py-20 text-center">
-          <span className="text-4xl">🔍</span>
-          <p className="mt-3 font-medium text-ink">
+        <div className="border border-dashed border-blush-border py-20 text-center">
+          <p className="font-display text-xl text-ink">
             No results for “{query}”
           </p>
-          <p className="mt-1 text-sm text-muted">
-            Try a different keyword, fabric, or browse all products.
+          <p className="mt-2 text-sm text-muted">
+            Try a different keyword or fabric, or browse all products.
           </p>
         </div>
       )}
 
       {!loading && results.length > 0 && (
         <>
-          <p className="mb-4 text-sm text-muted">
+          <p className="mb-5 text-center text-sm uppercase tracking-[0.1em] text-muted">
             {results.length} {results.length === 1 ? "result" : "results"}
           </p>
           <ProductGrid products={results} />
@@ -90,8 +94,8 @@ function SearchInner() {
       )}
 
       {!loading && !searched && (
-        <p className="text-center text-muted">
-          Start typing to discover your next favourite piece 🌸
+        <p className="py-16 text-center text-muted">
+          Start typing to discover your next favourite piece.
         </p>
       )}
     </div>

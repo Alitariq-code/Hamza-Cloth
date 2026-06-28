@@ -1,15 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
-import { SearchIcon, MenuIcon, CloseIcon } from "@/components/Icons";
+import { SITE_NAME } from "@/lib/constants";
+import { CATEGORIES } from "@/types";
+import {
+  SearchIcon,
+  MenuIcon,
+  CloseIcon,
+  HeartIcon,
+} from "@/components/Icons";
+import MenuDrawer from "./MenuDrawer";
 
-export default function Navbar() {
-  const pathname = usePathname();
+const NAV = [
+  { label: "New In", href: "/new-arrivals" },
+  ...CATEGORIES.map((c) => ({
+    label: c,
+    href: `/products?category=${encodeURIComponent(c)}`,
+  })),
+];
+
+export default function Navbar({
+  collections = [],
+}: {
+  collections?: { name: string; slug: string }[];
+}) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [drawer, setDrawer] = useState(false);
+  const [search, setSearch] = useState(false);
   const [q, setQ] = useState("");
 
   function submitSearch(e: React.FormEvent) {
@@ -17,100 +36,153 @@ export default function Navbar() {
     if (q.trim()) {
       router.push(`/search?q=${encodeURIComponent(q.trim())}`);
       setQ("");
-      setOpen(false);
+      setSearch(false);
     }
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-blush-border bg-background/90 backdrop-blur">
-      <nav className="container-site flex items-center justify-between gap-4 py-4">
-        {/* Brand */}
-        <Link href="/" className="shrink-0">
-          <span className="font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">
-            Hamza
-            <span className="text-gold"> Cloth House</span>
+    <header
+      id="top"
+      className="sticky top-0 z-40 border-b border-blush-border bg-white"
+    >
+      <nav className="container-site grid h-16 grid-cols-[1fr_auto_1fr] items-center sm:h-[72px]">
+        {/* Left: menu + search */}
+        <div className="flex items-center gap-3 sm:gap-5">
+          <button
+            aria-label="Open menu"
+            onClick={() => setDrawer(true)}
+            className="text-ink transition hover:text-muted"
+          >
+            <MenuIcon width={24} height={24} />
+          </button>
+          <button
+            aria-label="Search"
+            onClick={() => setSearch((s) => !s)}
+            className="text-ink transition hover:text-muted"
+          >
+            <SearchIcon width={22} height={22} />
+          </button>
+        </div>
+
+        {/* Center: wordmark */}
+        <Link href="/" className="justify-self-center" aria-label={SITE_NAME}>
+          <span className="font-display text-2xl font-semibold tracking-[0.18em] text-ink sm:text-[28px]">
+            HAMZA<span className="text-[0.7em] align-top">.</span>
           </span>
         </Link>
 
-        {/* Desktop links */}
-        <ul className="hidden items-center gap-7 lg:flex">
-          {NAV_LINKS.map((link) => {
-            const active =
-              pathname === link.href ||
-              (link.href !== "/" && pathname.startsWith(link.href));
-            return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`relative text-sm font-medium transition-colors hover:text-gold ${
-                    active ? "text-gold" : "text-ink"
-                  }`}
-                >
-                  {link.label}
-                  {active && (
-                    <span className="absolute -bottom-1.5 left-0 h-0.5 w-full rounded-full bg-gold" />
-                  )}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* Desktop search */}
-        <form
-          onSubmit={submitSearch}
-          className="hidden items-center gap-2 rounded-pill border border-blush-border bg-surface px-3 py-1.5 lg:flex"
-        >
-          <SearchIcon className="text-muted" width={16} height={16} />
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search…"
-            aria-label="Search products"
-            className="w-32 bg-transparent text-sm outline-none placeholder:text-muted"
-          />
-        </form>
-
-        {/* Mobile toggle */}
-        <button
-          className="lg:hidden"
-          aria-label="Toggle menu"
-          onClick={() => setOpen((o) => !o)}
-        >
-          {open ? <CloseIcon /> : <MenuIcon />}
-        </button>
+        {/* Right: wishlist */}
+        <div className="flex items-center justify-end gap-4 sm:gap-5">
+          <Link
+            href="/wishlist"
+            aria-label="Wishlist"
+            className="text-ink transition hover:text-muted"
+          >
+            <HeartIcon />
+          </Link>
+        </div>
       </nav>
 
-      {/* Mobile menu */}
-      {open && (
-        <div className="border-t border-blush-border bg-surface lg:hidden">
-          <div className="container-site flex flex-col gap-1 py-4">
-            <form
-              onSubmit={submitSearch}
-              className="mb-2 flex items-center gap-2 rounded-pill border border-blush-border bg-background px-3 py-2"
+      {/* Desktop quick nav */}
+      <div className="hidden border-t border-blush-border lg:block">
+        <div className="container-site flex items-center justify-center gap-8 py-2.5 text-[12px] font-medium uppercase tracking-[0.1em]">
+          {NAV.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="nav-underline text-ink transition-colors hover:text-muted"
             >
-              <SearchIcon className="text-muted" width={18} height={18} />
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search products…"
-                className="w-full bg-transparent text-sm outline-none"
-              />
-            </form>
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-btn px-3 py-2.5 text-sm font-medium text-ink transition hover:bg-background hover:text-gold"
+              {item.label}
+            </Link>
+          ))}
+
+          {/* Collections dropdown */}
+          <div className="group relative">
+            <Link
+              href="/collections"
+              className="flex items-center gap-1 text-ink transition-colors hover:text-muted"
+            >
+              Collections
+              <svg
+                viewBox="0 0 24 24"
+                width="12"
+                height="12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:rotate-180"
               >
-                {link.label}
-              </Link>
-            ))}
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </Link>
+            {collections.length > 0 && (
+              <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <div className="min-w-[230px] border border-blush-border bg-white py-2 shadow-xl">
+                  {collections.map((c) => (
+                    <Link
+                      key={c.slug}
+                      href={`/collections/${c.slug}`}
+                      className="block px-4 py-2.5 text-[12px] font-medium normal-case tracking-normal text-ink transition hover:bg-cream"
+                    >
+                      {c.name}
+                    </Link>
+                  ))}
+                  <div className="my-1 border-t border-blush-border" />
+                  <Link
+                    href="/collections"
+                    className="block px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-ink"
+                  >
+                    View All Collections
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
+
+          <Link
+            href="/sale"
+            className="nav-underline font-semibold text-accent"
+          >
+            Sale
+          </Link>
+        </div>
+      </div>
+
+      {/* Search dropdown */}
+      {search && (
+        <div className="border-t border-blush-border bg-white">
+          <form
+            onSubmit={submitSearch}
+            className="container-site flex items-center gap-3 py-3"
+          >
+            <SearchIcon className="text-muted" width={20} height={20} />
+            <input
+              autoFocus
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search for products…"
+              aria-label="Search products"
+              className="w-full bg-transparent text-sm uppercase tracking-wide outline-none placeholder:text-muted"
+            />
+            <button
+              type="button"
+              aria-label="Close search"
+              onClick={() => setSearch(false)}
+              className="text-muted transition hover:text-ink"
+            >
+              <CloseIcon width={20} height={20} />
+            </button>
+          </form>
         </div>
       )}
-      <span className="sr-only">{SITE_NAME}</span>
+
+      <MenuDrawer
+        open={drawer}
+        onClose={() => setDrawer(false)}
+        collections={collections}
+      />
     </header>
   );
 }

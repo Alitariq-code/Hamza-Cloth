@@ -18,9 +18,9 @@ export default function ProductGrid({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
-      {products.map((p) => (
-        <ProductCard key={p._id} product={p} />
+    <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
+      {products.map((p, i) => (
+        <ProductCard key={p._id} product={p} index={i} />
       ))}
     </div>
   );
